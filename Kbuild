@@ -112,6 +112,23 @@ ifeq ($(CONFIG_TOUCH_FOCALTECH), y)
 	obj-$(CONFIG_MSM_TOUCH) += focaltech_fts.o
 endif
 
+ifeq ($(TOUCHSCREEN_SYNAPTICS_TCM_S3907), y)
+	LINUX_INC += -include $(TOUCH_ROOT)/synaptics_s3907/synaptics_tcm_core.h
+	LINUX_INC += -include $(TOUCH_ROOT)/synaptics_s3907/synaptics_tcm_testing.h
+	LINUX_INC += -include $(TOUCH_ROOT)/synaptics_s3907/synaptics_tcm_xiaomi_board_data.h
+	LINUX_INC += -include $(TOUCH_ROOT)/synaptics_s3907/synaptics_tcm.h
+
+	synaptics_tcm_spi-y := \
+		 ./synaptics_s3907/synaptics_tcm_core.o\
+		 ./synaptics_s3907/synaptics_tcm_device.o \
+		 ./synaptics_s3907/synaptics_tcm_diagnostics.o \
+		 ./synaptics_s3907/synaptics_tcm_touch.o \
+		 ./synaptics_s3907/synaptics_tcm_reflash.o \
+		 ./synaptics_s3907/synaptics_tcm_testing.o
+
+	obj-$(CONFIG_MSM_TOUCH) += synaptics_tcm_spi.o
+endif
+
 ifeq ($(CONFIG_TOUCHSCREEN_NT36XXX_I2C), y)
 	LINUX_INC += -include $(TOUCH_ROOT)/nt36xxx/nt36xxx.h
 	LINUX_INC += -include $(TOUCH_ROOT)/nt36xxx/nt36xxx_mem_map.h
